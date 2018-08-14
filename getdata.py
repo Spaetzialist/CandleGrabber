@@ -20,14 +20,14 @@ else:
     out = []
 
     today = datetime.date.today()
-    week_ago = today - datetime.timedelta(days=7)
+    week_ago = today - datetime.timedelta(days=6)
     sdate = datetime.datetime(week_ago.year, week_ago.month, week_ago.day, 0, 0)
     start = millis(sdate)
 
 minute = 60 * 1000
 now = millis(datetime.datetime.now())
 baseurl = 'https://api.bitfinex.com/v2/candles/'
-timeframe = '1d'
+timeframe = '1m'
 symbol = 'tBTCUSD'
 
 
@@ -53,14 +53,21 @@ print("Test sanity")
 timestamp = out[0][0]
 print("first: %d", timestamp)
 
+minList=[]
+maxList=[]
 for l in out:
     #if not l[0] == timestamp + 1000 * 60:
         #print(l, timestamp, l[0] - timestamp)
     print (str(datetime.datetime.fromtimestamp(l[0] / 1000)))
     timestamp = l[0]
+    minList.append(l[4])
+    maxList.append(l[3])
 print ("----")
 print (str(datetime.datetime.fromtimestamp(out[0][0] / 1000)))
 print (str(datetime.datetime.fromtimestamp(out[len(out)-1][0] / 1000)))
 print ("out len = " + str(len(out)))
+print ("Min = " + str(min(minList)))
+print ("Max = " + str(max(maxList)))
+
 with open('data', 'wb') as fp:
     pickle.dump(out, fp)
