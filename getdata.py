@@ -29,7 +29,7 @@ minute = 60 * 1000
 now = millis(datetime.datetime.now())
 baseurl = 'https://api.bitfinex.com/v2/candles/'
 timeframe = '1D'
-symbol = ['tEOSUSD','tREPUSD','tXRPUSD','tDSHUSD','tZECUSD','tXRPUSD','tXLMUSD','tLTCUSD','tXMRUSD','tBTCUSD','tETCUSD','tETHUSD']
+symbol = ['tBCHUSD','tEOSUSD','tREPUSD','tXRPUSD','tDSHUSD','tZECUSD','tXRPUSD','tXLMUSD','tLTCUSD','tXMRUSD','tBTCUSD','tETCUSD','tETHUSD']
 d= {}
 errorList=[]
 
@@ -66,18 +66,18 @@ for s in symbol:
         maxList.append(l[3])
     #---------Ausgabe---------
 
-    #print (s + " (" + str(len(out)) + ")")
+
     if (len(out)!=NumOfDays):
         errorList.append ("Error at " + s + ". Only " + str(len(out)) + " elements loaded")
     DClow=min(minList)
     DChigh=max(maxList)
     calc = round((1-DClow/DChigh)*100,1)
     d[s]=calc
+    print (s + " (" + str(len(out)) + "): " + str(calc)+"%")
     #print (str(datetime.datetime.fromtimestamp(out[0][0] / 1000)))
     #print (str(datetime.datetime.fromtimestamp(out[len(out)-1][0] / 1000)))
     #print ("Min = " + str(min(minList)))
     #print ("Max = " + str(max(maxList)))
-    print (str(calc)+"%")
 
     start = millis(sdate)
     out = []
@@ -89,3 +89,7 @@ for e in errorList:
     print (e)
     #with open('data', 'wb') as fp:
     #    pickle.dump(out, fp)
+
+#todo:
+#Ergebnis in Datei schreiben
+#DC 3 und Entfernung davon mit reinnehmen
